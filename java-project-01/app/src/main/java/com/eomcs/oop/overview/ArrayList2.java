@@ -1,6 +1,6 @@
 package com.eomcs.oop.overview;
 
-public class ArrayList {
+public class ArrayList2 {
 
   static final int MAX_LENGTH = 100;
   static Object[] list = new Object[MAX_LENGTH];

@@ -1,33 +1,35 @@
-package com.eomcs.oop.overview;
+package com.eomcs.oop.overview2;
 
 import java.util.Date;
 import java.util.Scanner;
-import com.eomcs.oop.overview.App02.Board;
+import com.eomcs.oop.overview2.App02.Board;
 
 public class BoardHandler02 {
-
-  static final int BOARD_LENGTH = 3;
-  static Board[] boards = new Board[BOARD_LENGTH];
-  static int size = 0;
 
   static Scanner keyScan;
 
   static void list() {
     System.out.println("**게시글 목록**");
 
-    for(int i = 0; i < size; i++) {
+    Object[] arr = ArrayList02.toArray();
+
+    int i = 0;
+    for(Object item: arr) {
+
+      Board board = (Board) item;
+
       System.out.printf("%d, %s, %s,%d\n",
-          i,
-          boards[i].title,
-          String.format("%1$tY-%1$tm-%1$td", boards[i].createdDate),
-          boards[i].viewCount);
+          i++,
+          board.title,
+          String.format("%1$tY-%1$tm-%1$td", board.createdDate),
+          board.viewCount);
     }
   }
 
   static void add() {
     System.out.println("**게시글 등록**");
 
-    if(size == BOARD_LENGTH) {
+    if(ArrayList02.size == ArrayList02.MAX_LENGTH) {
       System.out.println("등록 개수를 초과했습니다.");
       return;
     }
@@ -48,7 +50,7 @@ public class BoardHandler02 {
 
     System.out.println("게시글을 등록했습니다.");
 
-    boards[size++] = board;
+    ArrayList02.append(board);
   }
 
   static void update() {
@@ -57,14 +59,16 @@ public class BoardHandler02 {
     System.out.print("번호? ");
     int index = Integer.parseInt(keyScan.nextLine());
 
-    if(index < 0 || index >= size) {
+    if(index < 0 || index >= ArrayList02.size) {
       System.out.println("잘못입력하셨습니다.");
       return;
     }
 
-    System.out.printf("제목(%s)?",boards[index].title);
+    Board board = (Board)ArrayList02.retrieve(index);
+
+    System.out.printf("제목(%s)?",board.title);
     String title = keyScan.nextLine();
-    System.out.printf("내용(%s)?", boards[index].content);
+    System.out.printf("내용(%s)?", board.content);
     String content = keyScan.nextLine();
 
     System.out.print("정말로 바꾸시겠습니까?(y/N) ");
@@ -73,8 +77,8 @@ public class BoardHandler02 {
       return;
     }
 
-    boards[index].title = title;
-    boards[index].content = content;
+    board.title = title;
+    board.content = content;
     System.out.println("변경했습니다.");
   }
 
@@ -84,7 +88,7 @@ public class BoardHandler02 {
     System.out.print("번호? ");
     int index = Integer.parseInt(keyScan.nextLine());
 
-    if(index < 0 || index >= size) {
+    if(index < 0 || index >= ArrayList02.size) {
       System.out.println("잘못입력하셨습니다.");
       return;
     }
@@ -95,11 +99,7 @@ public class BoardHandler02 {
       return;
     }
 
-    for(int i = index; i < size-1; i++) {
-      boards[i] = boards[i + 1];
-    }
-
-    size--;
+    ArrayList02.remove(index);
 
     System.out.println("게시글을 삭제했습니다.");
   }
@@ -110,16 +110,18 @@ public class BoardHandler02 {
     System.out.print("번호? ");
     int index = Integer.parseInt(keyScan.nextLine());
 
-    if(index < 0 || index >= size) {
+    if(index < 0 || index >= ArrayList02.size) {
       System.out.println("잘못입력하셨습니다.");
       return;
     }
 
-    boards[index].viewCount++;
+    Board board = (Board) ArrayList02.retrieve(index);
 
-    System.out.printf("제목: %s\n", boards[index].title);
-    System.out.printf("내용: %s\n", boards[index].content);
-    System.out.printf("조회수: %d\n", boards[index].viewCount);
-    System.out.printf("등록일: %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS\n", boards[index].createdDate);
+    board.viewCount++;
+
+    System.out.printf("제목: %s\n", board.title);
+    System.out.printf("내용: %s\n", board.content);
+    System.out.printf("조회수: %d\n", board.viewCount);
+    System.out.printf("등록일: %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS\n", board.createdDate);
   }
 }

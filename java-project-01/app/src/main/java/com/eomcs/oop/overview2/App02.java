@@ -1,4 +1,4 @@
-package com.eomcs.oop.overview;
+package com.eomcs.oop.overview2;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -19,6 +19,25 @@ import java.util.Scanner;
 //14. 게시글 삭제하기
 //15. 메서드 문법을 이용하여 기능 별로 명령어를 묶어 관리하기
 //16. 클래스를 이용하여 새 데이터타입을 정의하기
+//17. 클래스를 이용하여 메서드를 분류하기 
+//18. 데이터 목록을 다루는 코드를 재사용하기 쉽게 별도의 클래스로 분리한다.
+//19. 메뉴 선택 기능을 추가
+//20. 리팩토링: 메서드 추출 => 게시글 관리 메뉴 처리 코드를 별도의 메서드를 분리한다.
+//21. 리팩토링: 
+//    - 메서드 이동 => 게시글을 다루는 일은 BoardHandler에게 맡긴다.
+//    - 클래스 이동 => Board 클래스를 사용하는 BoardHandler로 옮긴다.
+//22. 메뉴 추가하기
+//    - 회원 관리 기능을 추가하기(미완성)
+//    - 계산기 기능을 추가하기(완성)
+//23. 메뉴를 실행하는 핸들러의 사용 규칙을 통일하기 : 인터페이스 문법의 용도 
+//    - 규칙 정의 : Handler
+//    - 규칙을 이행(implement) : BoardHandler, MemberHandler, ComputeHandler
+//24. 회원 관리 기능 완성하기
+//    - 회원 정보를 담을 데이터 타입을 새로 설계한다. => Member
+//    - 회원 등록, 목록 조회, 상세 조회, 변경, 삭제 기능을 구현한다.
+//    - 게시글과 회원 데이터를 함께 보관할 때 문제점 확인하기
+//25. 회원 데이터를 별도의 목록으로 관리하기(단순한 방법 = 유지보수가 어렵다)
+//    - 기존의 ArrayList 클래스를 복사하여 ArrayList2 로 만들어 사용한다.
 public class App02 {
 
   static class Board {
