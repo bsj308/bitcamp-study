@@ -3,8 +3,12 @@ package com.eomcs.oop.overview;
 import java.util.Scanner;
 
 public class ComputeHandler implements Handler {
-  static Scanner keyScan;
+  Scanner keyScan;
+  ComputeHandler(Scanner keyScan) {
+    this.keyScan = keyScan;
+  }
 
+  @Override
   public void execute() {
     while (true) {
       System.out.print("계산식: (이전메뉴: back) (예: 100 * 4) ");

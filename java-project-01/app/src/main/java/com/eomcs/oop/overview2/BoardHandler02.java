@@ -2,11 +2,40 @@ package com.eomcs.oop.overview2;
 
 import java.util.Date;
 import java.util.Scanner;
-import com.eomcs.oop.overview2.App02.Board;
 
-public class BoardHandler02 {
+public class BoardHandler02 implements Handler02{
+
+  static class Board {
+
+    String title;
+    String content;
+    String password;
+    int viewCount;
+    Date createdDate;
+
+  }
 
   static Scanner keyScan;
+
+  @Override
+  public void execute() {
+    loop: while (true) {
+      System.out.print("게시글 관리>");
+      String command = keyScan.nextLine();
+      switch(command) {
+        case "list" : BoardHandler02.list(); break;
+        case "add" : BoardHandler02.add(); break;
+        case "update" : BoardHandler02.update(); break;
+        case "delete" : BoardHandler02.delete(); break;
+        case "view" : BoardHandler02.view(); break;
+        case "back" :
+          break loop;
+        default :
+          System.out.println("잘못 입력하셨습니다.");
+      }
+      System.out.println();
+    }
+  }
 
   static void list() {
     System.out.println("**게시글 목록**");
@@ -43,10 +72,6 @@ public class BoardHandler02 {
     System.out.print("비밀번호: ");
     board.password = keyScan.nextLine();
     board.createdDate = new Date();
-
-    System.out.printf("제목: %s\n", board.title);
-    System.out.printf("내용: %s\n", board.content);
-    System.out.printf("비밀번호: %s\n", board.password);
 
     System.out.println("게시글을 등록했습니다.");
 

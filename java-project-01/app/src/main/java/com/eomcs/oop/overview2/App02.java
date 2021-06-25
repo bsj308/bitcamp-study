@@ -1,6 +1,5 @@
 package com.eomcs.oop.overview2;
 
-import java.util.Date;
 import java.util.Scanner;
 
 //01. main(): 프로그램 entry point
@@ -40,40 +39,45 @@ import java.util.Scanner;
 //    - 기존의 ArrayList 클래스를 복사하여 ArrayList2 로 만들어 사용한다.
 public class App02 {
 
-  static class Board {
-
-    String title;
-    String content;
-    String password;
-    int viewCount;
-    Date createdDate;
-
-  }
 
 
   static Scanner keyScan = new Scanner(System.in);
 
   public static void main(String[] args) {
     BoardHandler02.keyScan = keyScan;
+    MemberHandler02.keyScan = keyScan;
+    ComputeHandler02.keyScan = keyScan;
+
+    BoardHandler02 boardHandler02 = new BoardHandler02();
+    MemberHandler02 memberHandler02 = new MemberHandler02();
+    ComputeHandler02 computeHandler02 = new ComputeHandler02();
 
     System.out.println("[게시판 관리]");
 
-    loop : while(true) {
-      System.out.print("명령> ");
-      String command = keyScan.nextLine();
+    MenuLoop : while(true) {
+      System.out.println("[메뉴]");
+      System.out.println("1. 게시글 관리");
+      System.out.println("2. 회원 관리");
+      System.out.println("3. 계산기");
+      System.out.print("메뉴선택> (종료: quit) (1..3) ");
+      String menuNo = keyScan.nextLine();
 
-      switch(command) {
-        case "list" : BoardHandler02.list(); break;
-        case "add" : BoardHandler02.add(); break;
-        case "update" : BoardHandler02.update(); break;
-        case "delete" : BoardHandler02.delete(); break;
-        case "view" : BoardHandler02.view(); break;
-        case "quit" :
-          System.out.println("종료합니다.");
-          break loop;
-        default :
-          System.out.println("잘못 입력하셨습니다.");
+      switch(menuNo) {
+        case "1":
+          boardHandler02.execute();
+          break;
+        case "2":
+          memberHandler02.execute();
+          break;
+        case "3":
+          computeHandler02.execute();
+          break;
+        case "quit":
+          break MenuLoop;
+        default:
+          System.out.println("메뉴 번호가 옳지않습니다.");
       }
+      System.out.println();
     }
     keyScan.close();
   }
