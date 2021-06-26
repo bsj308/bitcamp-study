@@ -6,28 +6,33 @@ import java.util.Scanner;
 public class BoardHandler02 implements Handler02{
 
   static class Board {
-
     String title;
     String content;
     String password;
     int viewCount;
     Date createdDate;
-
   }
 
-  static Scanner keyScan;
+  String boardName;
+  Scanner keyScan;
+  ArrayList02 boardList = new ArrayList02();
+
+  BoardHandler02 (String boardName, Scanner keyScan) {
+    this.boardName = boardName;
+    this.keyScan = keyScan;
+  }
 
   @Override
   public void execute() {
     loop: while (true) {
-      System.out.print("게시글 관리>");
+      System.out.print(this.boardName + "/게시글 관리>");
       String command = keyScan.nextLine();
       switch(command) {
-        case "list" : BoardHandler02.list(); break;
-        case "add" : BoardHandler02.add(); break;
-        case "update" : BoardHandler02.update(); break;
-        case "delete" : BoardHandler02.delete(); break;
-        case "view" : BoardHandler02.view(); break;
+        case "list" : this.list(); break;
+        case "add" : this.add(); break;
+        case "update" : this.update(); break;
+        case "delete" : this.delete(); break;
+        case "view" : this.view(); break;
         case "back" :
           break loop;
         default :
@@ -37,10 +42,10 @@ public class BoardHandler02 implements Handler02{
     }
   }
 
-  static void list() {
+  void list() {
     System.out.println("**게시글 목록**");
 
-    Object[] arr = ArrayList02.toArray();
+    Object[] arr = boardList.toArray();
 
     int i = 0;
     for(Object item: arr) {
@@ -55,10 +60,10 @@ public class BoardHandler02 implements Handler02{
     }
   }
 
-  static void add() {
+  void add() {
     System.out.println("**게시글 등록**");
 
-    if(ArrayList02.size == ArrayList02.MAX_LENGTH) {
+    if(boardList.size == ArrayList02.MAX_LENGTH) {
       System.out.println("등록 개수를 초과했습니다.");
       return;
     }
@@ -75,21 +80,21 @@ public class BoardHandler02 implements Handler02{
 
     System.out.println("게시글을 등록했습니다.");
 
-    ArrayList02.append(board);
+    boardList.append(board);
   }
 
-  static void update() {
+  void update() {
     System.out.println("**게시글 변경**");
 
     System.out.print("번호? ");
     int index = Integer.parseInt(keyScan.nextLine());
 
-    if(index < 0 || index >= ArrayList02.size) {
+    if(index < 0 || index >= boardList.size) {
       System.out.println("잘못입력하셨습니다.");
       return;
     }
 
-    Board board = (Board)ArrayList02.retrieve(index);
+    Board board = (Board)boardList.retrieve(index);
 
     System.out.printf("제목(%s)?",board.title);
     String title = keyScan.nextLine();
@@ -107,13 +112,13 @@ public class BoardHandler02 implements Handler02{
     System.out.println("변경했습니다.");
   }
 
-  static void delete() {
+  void delete() {
     System.out.println("**게시글 삭제**");
 
     System.out.print("번호? ");
     int index = Integer.parseInt(keyScan.nextLine());
 
-    if(index < 0 || index >= ArrayList02.size) {
+    if(index < 0 || index >= boardList.size) {
       System.out.println("잘못입력하셨습니다.");
       return;
     }
@@ -124,23 +129,23 @@ public class BoardHandler02 implements Handler02{
       return;
     }
 
-    ArrayList02.remove(index);
+    boardList.remove(index);
 
     System.out.println("게시글을 삭제했습니다.");
   }
 
-  static void view() {
+  void view() {
     System.out.println("**게시글 조회**");
 
     System.out.print("번호? ");
     int index = Integer.parseInt(keyScan.nextLine());
 
-    if(index < 0 || index >= ArrayList02.size) {
+    if(index < 0 || index >= boardList.size) {
       System.out.println("잘못입력하셨습니다.");
       return;
     }
 
-    Board board = (Board) ArrayList02.retrieve(index);
+    Board board = (Board) boardList.retrieve(index);
 
     board.viewCount++;
 

@@ -37,29 +37,50 @@ import java.util.Scanner;
 //    - 게시글과 회원 데이터를 함께 보관할 때 문제점 확인하기
 //25. 회원 데이터를 별도의 목록으로 관리하기(단순한 방법 = 유지보수가 어렵다)
 //    - 기존의 ArrayList 클래스를 복사하여 ArrayList2 로 만들어 사용한다.
+//26. 인스턴스 변수로 배열을 관리하기
+//- ArrayList2.java 는 삭제한다.
+//- ArrayList.java의 변수를 인스턴스 변수로 전환한다. 
+//- ArrayList의 메서드에서 인스턴스 변수를 사용할 수 있도록 인스턴스 주소를 받는 파라미터를 추가한다.
+//- BoardHandler 와 MemberHandler는 각각 ArrayList 인스턴스를 생성하여 사용한다. 
+//27. 인스턴스 변수를 사용하는 메서드는 인스턴스 메서드로 선언하기
+//- ArrayList의 메서드를 클래스 메서드에서 인스턴스 메서드로 전환한다.
+//- BoardHandler 와 MemberHandler 에서 ArrayList 의 메서드를 호출할 때 
+//인스턴스 메서드 호출 규칙에 따라 변경한다.
+//28. 게시판 추가하기(클래스를 복제해서 만들기 => 유지보수가 어렵다) 
+//- BoardHandler 를 복제하여 BoardHandler2를 만든다.
+//29. 여러 개의 게시판을 다룰 수 있도록 BoardHandler의 변수를 인스턴스 변수로 전환한다.
+//- 또한 메서드도 인스턴스 메서드로 전환한다.
+//- BoardHandler2를 삭제한다.
+//- 게시판을 구분할 때 사용할 게시판 이름을 담는 인스턴스 변수를 추가한다.
+//30. 향후 다양한 그룹의 회원을 관리할 수 있도록 MemberHandler의 변수도 인스턴스 변수로 전환하기
+//- MemberHandler의 스태틱 변수를 인스턴스 변수로 바꾼다.
+//- 메서드도 인스턴스 메서드로 전환한다.
+//- 실무에서는 가능한 향후 확장성을 고려해서 인스턴스 변수로 주로 선언한다.
+//그러다보니 메서드도 인스턴스 메서드를 정의하게 된다.
+//- ComputeHandler도 인스턴스 변수로 변경하라.
+//31. 인스턴스를 만들 때 반드시 값을 설정하도록 강제하기
+//- 생성자 문법을 적용한다.
+//- 생성자를 인스턴스를 생성할 때 반드시 호출해야 하는 메서드이다.
 public class App02 {
-
-
 
   static Scanner keyScan = new Scanner(System.in);
 
   public static void main(String[] args) {
-    BoardHandler02.keyScan = keyScan;
-    MemberHandler02.keyScan = keyScan;
-    ComputeHandler02.keyScan = keyScan;
 
-    BoardHandler02 boardHandler02 = new BoardHandler02();
-    MemberHandler02 memberHandler02 = new MemberHandler02();
-    ComputeHandler02 computeHandler02 = new ComputeHandler02();
+    BoardHandler02 boardHandler02 = new BoardHandler02("게시판1", keyScan);
+    BoardHandler02 boardHandler3 = new BoardHandler02("게시판2", keyScan);
+    MemberHandler02 memberHandler02 = new MemberHandler02(keyScan, "일반");
+    ComputeHandler02 computeHandler02 = new ComputeHandler02(keyScan);
 
     System.out.println("[게시판 관리]");
 
     MenuLoop : while(true) {
       System.out.println("[메뉴]");
       System.out.println("1. 게시글 관리");
-      System.out.println("2. 회원 관리");
-      System.out.println("3. 계산기");
-      System.out.print("메뉴선택> (종료: quit) (1..3) ");
+      System.out.println("2. 게시글 관리2");
+      System.out.println("3. 회원 관리");
+      System.out.println("4. 계산기");
+      System.out.print("메뉴선택> (종료: quit) (1..4) ");
       String menuNo = keyScan.nextLine();
 
       switch(menuNo) {
@@ -67,9 +88,12 @@ public class App02 {
           boardHandler02.execute();
           break;
         case "2":
-          memberHandler02.execute();
+          boardHandler3.execute();
           break;
         case "3":
+          memberHandler02.execute();
+          break;
+        case "4":
           computeHandler02.execute();
           break;
         case "quit":

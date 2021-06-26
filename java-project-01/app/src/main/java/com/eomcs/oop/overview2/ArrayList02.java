@@ -3,31 +3,30 @@ package com.eomcs.oop.overview2;
 public class ArrayList02 {
 
   static final int MAX_LENGTH = 100;
-  static Object[] list = new Object[MAX_LENGTH];
-  static int size = 0;
+  Object[] list = new Object[MAX_LENGTH];
+  int size = 0;
 
-  static void append(Object obj) {
-    list[size++] = obj;
+  void append(Object obj) {
+    this.list[this.size++] = obj;
   }
 
-  static Object[] toArray() {
-    Object[] arr = new Object[size];
-    for (int i = 0; i < size; i++) {
-      arr[i] = list[i];
+  Object[] toArray() {
+    Object[] arr = new Object[this.size];
+    for (int i = 0; i < this.size; i++) {
+      arr[i] = this.list[i];
     }
     return arr;
   }
 
-  static Object retrieve(int index) {
-    return list[index];
+  Object retrieve(int index) {
+    return this.list[index];
   }
 
-  static void remove(int index) {
-    for(int i = index; i < size-1; i++) {
-      list[i] = list[i + 1];
+  void remove(int index) {
+    for(int i = index; i < this.size-1; i++) {
+      this.list[i] = this.list[i + 1];
     }
-
-    size--;
+    this.size--;
   }
 
 }

@@ -6,21 +6,30 @@ import java.util.Scanner;
 public class MemberHandler02 implements Handler02 {
 
   static class Member {
-
     String name;
     String email;
     String password;
     boolean working;
     Date registeredDate;
-
   }
 
-  static Scanner keyScan;
+  String memberGroupName;
+  Scanner keyScan;
+  ArrayList02 memberList = new ArrayList02();
+
+  MemberHandler02 (Scanner keyScan, String memberGroupName) {
+    this.keyScan = keyScan;
+    this.memberGroupName = memberGroupName;
+  }
+
+  MemberHandler02 (Scanner keyScan) {
+    this.keyScan = keyScan;
+  }
 
   @Override
   public void execute() {
     loop: while (true) {
-      System.out.print("회원 관리>");
+      System.out.print(this.memberGroupName + "회원 관리>");
       String command = keyScan.nextLine();
       switch(command) {
         case "list" : list(); break;
@@ -37,10 +46,10 @@ public class MemberHandler02 implements Handler02 {
     }
   }
 
-  static void list() {
+  void list() {
     System.out.println("**회원 목록**");
 
-    Object[] arr = ArrayList02.toArray();
+    Object[] arr = memberList.toArray();
 
     for(int i = 0; i<arr.length;i++) {
 
@@ -54,10 +63,10 @@ public class MemberHandler02 implements Handler02 {
     }
   }
 
-  static void add() {
+  void add() {
     System.out.println("**회원 등록**");
 
-    if(ArrayList02.size == ArrayList02.MAX_LENGTH) {
+    if(memberList.size == ArrayList02.MAX_LENGTH) {
       System.out.println("등록 개수를 초과했습니다.");
       return;
     }
@@ -81,21 +90,21 @@ public class MemberHandler02 implements Handler02 {
 
     System.out.println("회원을 등록했습니다.");
 
-    ArrayList02.append(member);
+    memberList.append(member);
   }
 
-  static void update() {
+  void update() {
     System.out.println("**회원 변경**");
 
     System.out.print("번호? ");
     int index = Integer.parseInt(keyScan.nextLine());
 
-    if(index < 0 || index >= ArrayList02.size) {
+    if(index < 0 || index >= memberList.size) {
       System.out.println("잘못입력하셨습니다.");
       return;
     }
 
-    Member member = (Member)ArrayList02.retrieve(index);
+    Member member = (Member)memberList.retrieve(index);
 
     System.out.printf("이름(%s)?",member.name);
     String name = keyScan.nextLine();
@@ -122,13 +131,13 @@ public class MemberHandler02 implements Handler02 {
     System.out.println("변경했습니다.");
   }
 
-  static void delete() {
+  void delete() {
     System.out.println("**회원 삭제**");
 
     System.out.print("번호? ");
     int index = Integer.parseInt(keyScan.nextLine());
 
-    if(index < 0 || index >= ArrayList02.size) {
+    if(index < 0 || index >= memberList.size) {
       System.out.println("잘못입력하셨습니다.");
       return;
     }
@@ -139,23 +148,23 @@ public class MemberHandler02 implements Handler02 {
       return;
     }
 
-    ArrayList02.remove(index);
+    memberList.remove(index);
 
     System.out.println("게시글을 삭제했습니다.");
   }
 
-  static void view() {
+  void view() {
     System.out.println("**회원 조회**");
 
     System.out.print("번호? ");
     int index = Integer.parseInt(keyScan.nextLine());
 
-    if(index < 0 || index >= ArrayList02.size) {
+    if(index < 0 || index >= memberList.size) {
       System.out.println("잘못입력하셨습니다.");
       return;
     }
 
-    Member member = (Member) ArrayList02.retrieve(index);
+    Member member = (Member) memberList.retrieve(index);
 
     System.out.printf("이름: %s\n", member.name);
     System.out.printf("이메일: %s\n", member.email);

@@ -4,7 +4,11 @@ import java.util.Scanner;
 
 public class ComputeHandler02 implements Handler02{
 
-  static Scanner keyScan;
+  Scanner keyScan;
+
+  ComputeHandler02 (Scanner keyScan) {
+    this.keyScan = keyScan;
+  }
 
   @Override
   public void execute() {
