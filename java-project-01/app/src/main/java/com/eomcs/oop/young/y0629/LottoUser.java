@@ -1,4 +1,4 @@
-package com.eomcs.oop.young;
+package com.eomcs.oop.young.y0629;
 
 public class LottoUser {
 
