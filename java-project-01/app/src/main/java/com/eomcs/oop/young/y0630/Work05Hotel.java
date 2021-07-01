@@ -111,7 +111,8 @@ public class Work05Hotel {
   }
 
   public void map() { //printAll() = list() = display()
-    System.out.println("---------------------------------------");
+    System.out.println("\t[ 델루나 투숙 상태 ]");
+    System.out.println("-------------------------------------");
     for(int i=0; i<name.length; i++) {
       for(int j=0; j<name[i].length; j++) {
         System.out.print((i+1)+"0"+(j+1)+"\t");
