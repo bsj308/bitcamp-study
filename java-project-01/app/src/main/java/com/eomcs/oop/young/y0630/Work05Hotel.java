@@ -133,6 +133,16 @@ public class Work05Hotel {
 
   public void list() { //영림쌤
 
+    for(int i=0; i<name.length; i++) {
+      for(int j=0; j<name[i].length; j++) {
+        if(name[i][j] == null) {
+          System.out.print("" + (i+1) + "0" + (j+1) + "호" + "□\t"+"\t");
+        }else { 
+          System.out.print("" + (i+1) + "0" + (j+1) + "호" + "■\t"+name[i][j]+"\t");
+        }
+      }
+      System.out.println();
+    }
   }
 
   public static void main(String[] args) {

@@ -1,6 +1,9 @@
 package com.eomcs.oop.common;
 
 public class Dunkin {
+
+  public Dunkin() { }
+
   public String coffee() {
     //Non-static 메소드, 리턴값
     //주문할 때 = 필요할 때 메모리에 로드
@@ -9,7 +12,7 @@ public class Dunkin {
     return kind;
   }
 
-  public static void donuts(int cnt) {
+  public void donuts(int cnt) {
     //static 메소드, 메소드(매개인자)
     //미리상품화 클래스이름.도너츠()
     //Dunkin.donuts(); 접근

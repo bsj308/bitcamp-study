@@ -16,8 +16,8 @@ public class Work05HotelMethod implements Work05HotelImp {
       try {
         System.out.print("몇 층에 투숙하시겠어요? ");
         floor = Integer.parseInt(sc.nextLine());
-        if(floor<0 || floor>name.length) {
-          System.out.printf("범위를 벗어났습니다. (0..%d)\n", name.length);
+        if(floor<1 || floor>name.length) {
+          System.out.printf("범위를 벗어났습니다. (1..%d)\n\n", name.length);
           continue;
         }//if end
 
@@ -26,34 +26,35 @@ public class Work05HotelMethod implements Work05HotelImp {
             System.out.print("몇 호에 투숙하시겠어요? ");
             room = Integer.parseInt(sc.nextLine());
 
-            if(room<0 || room>name[0].length) {
-              System.out.printf("범위를 벗어났습니다. (0..%d)\n", name[0].length);
+            if(room<1 || room>name[0].length) {
+              System.out.printf("범위를 벗어났습니다. (1..%d)\n\n", name[0].length);
               continue;
             }else if(name[floor-1][room-1] != null) {
               System.out.println("이미 예약된 방입니다.");
               continue loop;
             }//if end
             break;
-          }catch(Exception ex) {System.out.println("숫자를 입력해주세요.");}
-        }//while end
-
-        while(true) {
-          System.out.print("성함을 입력해주세요 >>> ");
-          String tmp = sc.nextLine();
-
-          if(tmp.equals("")) {
-            System.out.println("성함을 다시 입력해주세요 >>>");
-            continue;
-          } else {
-            name[floor-1][room-1] = tmp;
-            System.out.printf("%d0%d호 예약이 완료됐습니다.\n",floor,room);
-          }//if end
-          break;
+          }catch(Exception ex) {System.out.println("숫자를 입력해주세요.\n");}
         }//while end
 
         break;
-      }catch(Exception ex) {System.out.println("숫자를 입력해주세요.");}
+      }catch(Exception ex) {System.out.println("숫자를 입력해주세요.\n");}
     }//while end
+
+    while(true) {
+      System.out.print("성함을 입력해주세요 >>> ");
+      String tmp = sc.nextLine();
+
+      if(tmp.equals("")) {
+        System.out.println("성함을 다시 입력해주세요 >>>");
+        continue;
+      } else {
+        name[floor-1][room-1] = tmp;
+        System.out.printf("%d0%d호 예약이 완료됐습니다.\n",floor,room);
+      }//if end
+      break;
+    }//while end
+
   }//end
 
   @Override
@@ -62,8 +63,8 @@ public class Work05HotelMethod implements Work05HotelImp {
       try {
         System.out.print("몇 층에서 퇴실하하시겠어요? ");
         floor = Integer.parseInt(sc.nextLine());
-        if(floor<0 || floor>name.length) {
-          System.out.printf("범위를 벗어났습니다. (0..%d)\n", name.length);
+        if(floor<1 || floor>name.length) {
+          System.out.printf("범위를 벗어났습니다. (1..%d)\n\n", name.length);
           continue;
         }//if end
 
@@ -72,23 +73,43 @@ public class Work05HotelMethod implements Work05HotelImp {
             System.out.print("몇 호에서 퇴실하시겠어요? ");
             room = Integer.parseInt(sc.nextLine());
 
-            if(room<0 || room>name[0].length) {
-              System.out.printf("범위를 벗어났습니다. (0..%d)\n", name[0].length);
+            if(room<1 || room>name[0].length) {
+              System.out.printf("범위를 벗어났습니다. (1..%d)\n\n", name[0].length);
               continue;
             }else if(name[floor-1][room-1] == null) {
-              System.out.println("퇴실할 수 있는 방이 아닙니다.");
+              System.out.println("퇴실할 수 있는 방이 아닙니다.\n");
               continue loop;
-            }else {
-              name[floor-1][room-1] = null;
-              System.out.printf("%d0%d호 퇴실이 완료됐습니다.\n",floor,room);
             }//if end
             break;
-          }catch(Exception ex) {System.out.println("숫자를 입력해주세요.");}
+          }catch(Exception ex) {System.out.println("숫자를 입력해주세요.\n");}
         }//while end
 
         break;
-      }catch(Exception ex) {System.out.println("숫자를 입력해주세요.");}
+      }catch(Exception ex) {System.out.println("숫자를 입력해주세요.\n");}
     }//while end
+
+    int count = 0;
+    while(true) {
+      System.out.print("예약자분 성함을 입력해주세요 >>> ");
+      String tmp = sc.nextLine();
+
+      if(tmp.equals("")) {
+        System.out.println("잘못된 형식으로 입력하셨습니다.\n");
+        continue;
+      } else if(!name[floor-1][room-1].equals(tmp)) {
+        System.out.println("예약자 성함이 아닙니다.\n");
+        count++;
+        if(count == 3) {
+          System.out.println("예약자가 아니십니다. 퇴실을 종료합니다.");
+          break;
+        }
+      } else {
+        name[floor-1][room-1] = null;
+        System.out.printf("%d0%d호 퇴실이 완료됐습니다.\n",floor,room);
+        break;
+      }//if end
+    }//while end
+
   }//end
 
   @Override
@@ -114,7 +135,7 @@ public class Work05HotelMethod implements Work05HotelImp {
   }//end
 
   @Override
-  public void list() { //영림쌤
+  public void list() {
     System.out.printf("\n\t[ %s 투숙 상태 ]\n\n",title);
 
     for(int i=0; i<name.length; i++) {
@@ -122,12 +143,9 @@ public class Work05HotelMethod implements Work05HotelImp {
         System.out.print((i+1)+"0"+(j+1) + "호 ");
 
         if(name[i][j] == null) {
-          System.out.print("□   \t");
-          //System.out.printf("□ \t");
+          System.out.print("□ \t");
         } else {
-          System.out.printf("■ %s \t",name[i][j]);
-          //System.out.printf("■ %s \t",name[i][j]);
-          //System.out.println("■" + name[i][j] +" \t");
+          System.out.printf("■ %s\t",name[i][j]);
         }//if end
       }//for end
       System.out.println();

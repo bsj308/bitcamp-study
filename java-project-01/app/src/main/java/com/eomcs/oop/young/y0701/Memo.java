@@ -29,8 +29,13 @@ public class Memo extends Frame implements WindowListener, ActionListener {
     this.add("South", pan); //pan=Panel 판넬
 
     //이벤트연결 리스너 추가
-    this.addWindowListener(this); //앞this 뒤this
-    tf.addActionListener(this);
+
+    //    Memo mm = new Memo();
+    //    addWindowListener(mm);
+    //WindowListener w1 = new WindowListener();
+    //addWindowListener(w1);
+    this.addWindowListener(this); //앞this 뒤this //괄호안매개인(WindowListener) //없으면 불편 윈도우X로 종료안됨
+    tf.addActionListener(this); //없으면 엔터키로 전달안됨
     btnSend.addActionListener(this);
     btnExit.addActionListener(this);
 
@@ -72,11 +77,19 @@ public class Memo extends Frame implements WindowListener, ActionListener {
 
   public void myExit() {
     System.out.println("초간단 메모장 프로그램을 종료합니다");
-    System.exit(1);
+    System.exit(0); //프로그램 완전종료
   }//end
+
+  public void bitCamp() {
+    //    AAA ac = new AAA(); //에러발생
+    //    WindowListener w1 = new WindowListener();
+  }
 
   public static void main(String[] args) {
     Memo pad = new Memo();
+    //AAA aa = null; //선언만
+    //AAA ac = new AAA(); //에러발생
+    //WindowListener w1 = new WindowListener();
     //pad.windowClosing(null);
   }
 

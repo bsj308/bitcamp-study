@@ -36,15 +36,14 @@ public class Work05Hotel extends Work05HotelMethod {
 
       switch(sel) {
         case 1:
-          map();
+          super.map();
           checkIn();
           break;
         case 2:
-          map();
           checkOut();
           break;
         case 3:
-          super.map();
+          map();
           break;
         case 4:
           list();
