@@ -71,7 +71,7 @@ public class Memo extends Frame implements WindowListener, ActionListener {
     //2. tf내용을 ta에 추가후 tf내용삭제, tf입력란에 초점
     String data = tf.getText();
     ta.append(data+"\n");
-    tf.setText("");
+    tf.setText(""); //내용삭제
     tf.requestFocus();
   }//end
 
