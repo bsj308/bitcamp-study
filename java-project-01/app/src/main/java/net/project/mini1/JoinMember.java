@@ -1,6 +1,7 @@
 package net.project.mini1;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -11,44 +12,68 @@ public class JoinMember {
   ResultSet RS = null; //select조회결과값 전체데이터를 기억
   String msg = "isud = crud쿼리문기술";
   Scanner sc = new Scanner(System.in);
-  //  memNo number(4) not null ,
-  //  name varchar(9) not null ,
-  //  ID varchar(6) primary key ,
-  //  psw varchar(6) not null ,
-  //  email varchar(20) not null ,
-  //  cdate date not null ,
-  //  score number(4) default(0)
+  String id;
+  String psw = "비밀번호";
+  String name;
+  String email;
+
+  public void dbConnect() {
+    try {
+      Class.forName("oracle.jdbc.driver.OracleDriver"); //오라클드라이브로드
+      String url = "jdbc:oracle:thin:@127.0.0.1:1521:XE";
+      CN = DriverManager.getConnection( url, "system", "1234");
+      System.out.println("오라클 드라이브및 서버연결성공");
+
+      ST = CN.createStatement();
+    }catch(Exception ex) { System.out.println("에러이유 " + ex);}
+  }//dbconnect end
 
   public void join() {
     System.out.println("회원가입");
-    String id = "아이디";
+
+    setName();
+    setID();
+    setPSW();
+    setEmail();
+
+    insertMember();
+    System.out.println("회원가입이 완료되었습니다.");
+  }//join end
+
+  public void setName() {
+    System.out.print("이름>> ");
+    String name = sc.nextLine();
+  }//setName end
+
+  //아이디 입력
+  public void setID() {
     loop : while(true) {
       System.out.print("아이디>> ");
       id = sc.nextLine();
       System.out.println("아이디 중복확인 중 입니다.");
       try {
-        Thread.sleep(2000);
-        msg = "SELECT id FROM member";
+        Thread.sleep(1000);
+        msg = "select ID from member";
         RS = ST.executeQuery(msg);
         while(RS.next()==true) {
           String tmpid = RS.getString("ID");
           if(id.equals(tmpid)) {
-            System.out.println("이미 있는 ID입니다");
+            System.out.println("이미 있는 ID입니다.");
             continue loop;
           }//if end
         }//while end
         System.out.println("아이디로 사용가능합니다.");
         break;
-      }catch(Exception ex) { }
+      }catch(Exception ex) {System.out.println("에러" + ex);}
     }//while end
+  }//setID end
 
-
-    String psw = "비밀번호";
-
+  //비밀번호입력
+  public void setPSW() {
     while(true) {
       System.out.print("비밀번호>> ");
       psw = sc.nextLine();
-      System.out.println("비밀번호 재확인>>");
+      System.out.print("비밀번호 재확인>>");
       String tmp = sc.nextLine();
       if(psw.equals(tmp)) {
         System.out.println("비밀번호가 일치합니다.");
@@ -58,14 +83,18 @@ public class JoinMember {
         continue;
       }//if end
     }//while end
-    System.out.print("이름>> ");
-    String name = sc.nextLine();
+  }//setPSW end
+
+  public void setEmail() {
     System.out.print("email>> ");
     String email = sc.nextLine();
+  }//setEmail end
 
-    msg = "INSERT INTO member VALUES(member_seq.nextval,"+ name +","+ id +","+ psw +","+ email +",sysdate";
+  public void insertMember() {
+    msg = "INSERT INTO member(memNo, name, ID, psw, email, cdate) "
+        + "VALUES(member_seq.nextval,'"+ name +"','"+ id +"','"+ psw +"','"+ email +"',sysdate)";
     try {
       ST.executeUpdate(msg);
     }catch(Exception ex) { }
-  }//join end
+  }//insertMember end
 }//Class END

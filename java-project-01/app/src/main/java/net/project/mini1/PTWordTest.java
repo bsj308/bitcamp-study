@@ -13,6 +13,13 @@ public class PTWordTest {
   ResultSet RS = null; //select조회결과값 전체데이터를 기억
   String msg = "isud = crud쿼리문기술";
   Scanner sc = new Scanner(System.in);
+  String userID = "로그인 ID";
+  int level;
+
+  PTWordTest(String userID,int level) {
+    this.userID = userID;
+    this.level = level;
+  }
 
   public void dbConnect() {
     try {
@@ -49,7 +56,8 @@ public class PTWordTest {
   public int getTotalWordNum() {
     int count = 0;
     try {
-      msg = "select count(*) from word";
+      //msg = "select count(*) from word";
+      msg = "select count(*) from wordtest where wordlevel = " + level;
       RS = ST.executeQuery(msg);
       if( RS.next() == true) {
         count = RS.getInt("count(*)");
@@ -62,7 +70,11 @@ public class PTWordTest {
   public String getWord(String type, int wordNumber) {
     String word = "단어";
     try {
-      msg = "select " + type + " from word where code =" + wordNumber;
+      //msg = "select " + type + " from word where code =" + wordNumber;
+      msg = "select " + type + " from "
+          + "(select row_number() over(partition by wordlevel order by wordlevel) as s, b.* "
+          + "from wordtest b) a "
+          + "where wordlevel = " + level + " and a.s = " + wordNumber;
       RS = ST.executeQuery(msg);
       if( RS.next() == true) {
         word = RS.getString(type);
@@ -75,7 +87,8 @@ public class PTWordTest {
   public int getDBScore() {
     int score = 0;
     try {
-      msg = "select score from member where id = 'ID1'";
+      msg = "select score from member where id = '" + userID + "'";
+      //msg = "select score from member where id = 'ID1'";
       RS = ST.executeQuery(msg);
       if(RS.next() == true) {
         score = RS.getInt("score");
@@ -103,7 +116,8 @@ public class PTWordTest {
   //데이터베이스에 점수저장
   public void setDBScore(int score) {
     try {
-      msg = "update member set score =" + score + " where id = 'ID1'";
+      msg = "update member set score =" + score + " where id = '" + userID + "'";
+      //msg = "update member set score =" + score + " where id = 'ID1'";
       ST.executeUpdate(msg);
     }catch(Exception ex) { }
   }//setDBScore end
