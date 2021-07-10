@@ -107,4 +107,4 @@ public class PTWordTest {
       ST.executeUpdate(msg);
     }catch(Exception ex) { }
   }//setDBScore end
-}//WordTest classEND
+}//Class END
