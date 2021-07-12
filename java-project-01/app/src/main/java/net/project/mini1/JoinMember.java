@@ -13,7 +13,7 @@ public class JoinMember {
   String msg = "isud = crud쿼리문기술";
   Scanner sc = new Scanner(System.in);
   String id;
-  String psw = "비밀번호";
+  String psw;
   String name;
   String email;
 
@@ -41,15 +41,23 @@ public class JoinMember {
   }//join end
 
   public void setName() {
-    System.out.print("이름>> ");
-    String name = sc.nextLine();
+    while(true) {
+      System.out.print("이름>> ");
+      name = sc.nextLine();
+      if(stringCheck(name)) {continue;}
+      break;
+    }//while end
   }//setName end
 
   //아이디 입력
   public void setID() {
     loop : while(true) {
-      System.out.print("아이디>> ");
-      id = sc.nextLine();
+      while(true) {
+        System.out.print("아이디>> ");
+        id = sc.nextLine();
+        if(stringCheck(id)) {continue;}
+        break;
+      }//while end
       System.out.println("아이디 중복확인 중 입니다.");
       try {
         Thread.sleep(1000);
@@ -71,8 +79,12 @@ public class JoinMember {
   //비밀번호입력
   public void setPSW() {
     while(true) {
-      System.out.print("비밀번호>> ");
-      psw = sc.nextLine();
+      while(true) {
+        System.out.print("비밀번호>> ");
+        psw = sc.nextLine();
+        if(stringCheck(psw)) {continue;}
+        break;
+      }//while end
       System.out.print("비밀번호 재확인>>");
       String tmp = sc.nextLine();
       if(psw.equals(tmp)) {
@@ -86,8 +98,19 @@ public class JoinMember {
   }//setPSW end
 
   public void setEmail() {
-    System.out.print("email>> ");
-    String email = sc.nextLine();
+    while(true) {
+      while(true) {
+        System.out.print("email>> (ex:abc@abc.com)");
+        email = sc.nextLine();
+        if(stringCheck(email)) {continue;}
+        break;
+      }//while end
+      if(!email.contains("@")) {
+        System.out.println("양식이 잘못되었습니다. 다시 입력해주세요.");
+        continue;
+      }//if end
+      break;
+    }//while end
   }//setEmail end
 
   public void insertMember() {
@@ -97,4 +120,13 @@ public class JoinMember {
       ST.executeUpdate(msg);
     }catch(Exception ex) { }
   }//insertMember end
+
+  //문자체크 null,빈문자,공백
+  public boolean stringCheck(String string) {
+    boolean check = string == null || string.isEmpty() || string.indexOf(" ") != -1;
+    if(check) {
+      System.out.println("양식이 잘못되었습니다. 다시 입력해주세요.");
+    }
+    return check;
+  }//stringCheck end
 }//Class END
