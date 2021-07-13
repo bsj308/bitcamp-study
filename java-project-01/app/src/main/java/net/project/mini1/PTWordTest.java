@@ -44,55 +44,81 @@ public class PTWordTest {
     }catch(Exception ex) { System.out.println("에러이유 " + ex);}
   }//dbconnect end
 
-  public void wordTest() { //중도포기, 게임종료 후 리플레이와 뒤로가기 구현필요
+  public void wordTest() { //게임종료 후 리플레이와 뒤로가기 구현필요
+    test: while(true) {
+      System.out.println("영어단어테스트를 시작합니다.");
+      System.out.println("문제당 제한시간은 10초입니다.");
+      System.out.println("테스트중간에 그만두고 싶으시다면 'end'를 입력해주세요.\n");
+      try {
+        //안내사항 확인위한 시간텀
+        Thread.sleep(2000);
 
-    System.out.println("영어단어테스트를 시작합니다.");
-    System.out.println("문제당 제한시간은 10초입니다.\n");
+        //랜덤문제생성
+        randomSetting();
 
-    try {
-      //랜덤문제생성
-      randomSetting();
+        //테스트 5번 반복
+        for(int i =0 ; i<questionNum.length; i++) {
+          //문제랜덤출력
+          System.out.printf("문제>> %s\n",getWord("eng", i));
+          System.out.print("정답>> ");
 
-      //테스트 5번 반복
-      for(int i =0 ; i<questionNum.length; i++) {
-        //문제랜덤출력
-        System.out.printf("문제>> %s\n",getWord("eng", i));
-        System.out.print("정답>> ");
+          //제한시간 10초설정
+          ExecutorService ex = Executors.newSingleThreadExecutor();
+          //쓰레드 1개인 ExecutorService를 리턴합니다. 싱글 쓰레드에서 동작해야하는 작업을 처리할 때 사용합니다.
 
-        //제한시간 10초설정
-        ExecutorService ex = Executors.newSingleThreadExecutor();
-        //쓰레드 1개인 ExecutorService를 리턴합니다. 싱글 쓰레드에서 동작해야하는 작업을 처리할 때 사용합니다.
-
-        try {
-          Future<String> result = ex.submit(new InputAnswer()); // 정답함수 받아서 쓰레드에 전달
-          //submit은 Runnable 또는 Callable을 받는다. Runnable은 리턴값이 없고 Callable은 리턴값이 있다.
           try {
-            uanswer = result.get(10, TimeUnit.SECONDS);
-            //필요에 따라서 최대지정된 시간, 계산이 완료할 때까지 대기해, 그 후, 계산 결과가 이용 가능한 경우는 결과를 가져옵니다.
-          } catch (ExecutionException e) { // 작업도중에 에러가 발생한 경우에 발생
-            e.getCause().printStackTrace(); // 오류출력
-          } catch (TimeoutException e){ //대기시간이 초과된 경우에 발생
-            System.out.println("\ntoo late!"); // 시간초과
-            answerCheck(uanswer, i);
-            System.out.println();
-            continue;
-          } catch (InterruptedException e){ //현재 스레드가 인터럽트된 경우에 발생
-            System.out.println("interrupted?");
-            e.getCause().printStackTrace(); // 오류출력
+            Future<String> result = ex.submit(new InputAnswer()); // 정답함수 받아서 쓰레드에 전달
+            //submit은 Runnable 또는 Callable을 받는다. Runnable은 리턴값이 없고 Callable은 리턴값이 있다.
+            try {
+              uanswer = result.get(10, TimeUnit.SECONDS);
+              //필요에 따라서 최대지정된 시간, 계산이 완료할 때까지 대기해, 그 후, 계산 결과가 이용 가능한 경우는 결과를 가져옵니다.
+              //게임도중 종료
+              if(uanswer.equals("end")) {
+                break;
+              }//if end
+            } catch (ExecutionException e) { // 작업도중에 에러가 발생한 경우에 발생
+              e.getCause().printStackTrace(); // 오류출력
+            } catch (TimeoutException e){ //대기시간이 초과된 경우에 발생
+              System.out.println("\n입력시간이 초과됐습니다."); // 시간초과
+              answerCheck(uanswer, i);
+              System.out.println();
+              continue;
+            } catch (InterruptedException e){ //현재 스레드가 인터럽트된 경우에 발생
+              System.out.println("interrupted?");
+              e.getCause().printStackTrace(); // 오류출력
+            }//try end
+          } finally {
+            ex.shutdownNow(); //진행중인거 강제 종료
+            //스레드 풀의 스레드는 기본적으로 데몬 스레드가 아니기 때문에 main 스레드가 종료되더라도 작업을 처리하기 위해 계속 실행 상태로 남아있습니다.
+            //프로세스를 종료시키려면 스레드 풀을 종료시켜 스레드들이 종료 상태가 되도록 처리필요
           }//try end
-        } finally {
-          ex.shutdownNow(); //진행중인거 강제 종료
-          //스레드 풀의 스레드는 기본적으로 데몬 스레드가 아니기 때문에 main 스레드가 종료되더라도 작업을 처리하기 위해 계속 실행 상태로 남아있습니다.
-          //프로세스를 종료시키려면 스레드 풀을 종료시켜 스레드들이 종료 상태가 되도록 처리필요
-        }//try end
 
-        answerCheck(uanswer, i);
-        System.out.println();
-      }//for end
-    }catch(Exception ex) {System.out.println("에러이유: "+ex);}
+          answerCheck(uanswer, i);
+          System.out.println();
+        }//for end
+      }catch(Exception ex) {System.out.println("에러이유: "+ex);}
 
-    System.out.println("테스트가 끝났습니다.");
+      System.out.println("테스트가 끝났습니다.\n");
 
+      //게임종료 후 메뉴선택
+      while(true) {
+        System.out.println("1.리플레이 2.이전메뉴");
+        System.out.println("메뉴>> ");
+        String menu = sc.nextLine();
+
+        switch(menu) {
+          case "1":
+            continue test;
+            //break;
+          case "2":
+            return;
+            //break;
+          default:
+            System.out.println("잘못입력하셨습니다.\n");
+            continue;
+        }//switch end
+      }//while end
+    }//while end
   }//wordTest end
 
   //문제 총 개수반환
