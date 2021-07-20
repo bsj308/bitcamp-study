@@ -21,6 +21,21 @@ public class TestJumin {
 
     int len = min.length();
     System.out.println("총자릿수=" + len);
+
+    System.out.println("----------------");
+
+    String b = "abc@efg.com";
+
+    pos = b.indexOf("@");
+    System.out.println(pos);
+    String front = b.substring(0, pos);
+    System.out.println(front);
+    int a = front.length();
+    System.out.println(a);
+    last = b.substring(pos+1);
+    System.out.println(last);
+    int c = last.length();
+    System.out.println(c);
   }
 }
 
