@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testForm.html</title>
+    <style>
+         *{font-size: 20px;}
+        a{font-size: 20pt;text-decoration: none;color: blue;}
+        a:hover {font-size: 30pt;text-decoration: none; color:green;font-family: 'Comic sans ms';}
+    </style>
+    <script>
+        function nullCheck(){
+            a = testform.code.value;
+            size = testform.code.value.length;
+            if(a=="" || a==null) {
+                alert("코드데이터를 입력해주세요.");
+                testform.code.focus();
+                return;
+            }else if(size!=6) {
+                alert("코드는 6자리입니다.");
+                testform.code.focus();
+                testform.code.value="";
+                return;
+            }
+
+            b = testform.title.value;
+            if(b=="" || b==null) {
+                alert("제목을 입력해주세요.");
+                testform.code.focus();
+                return;
+            }
+        }//end
+    </script>
+</head>
+<body>
+    <font face="궁서체" color="red"><b> 화면만들기 testForm.html </b></font> <br>
+    <form name="testform">
+        🎄코드: <input type="text" name="code" > <br>
+        🎄제목: <input type="text" name="title"> <br>
+        <input type="button" value="저장" onclick="nullCheck();">
+        <input type="reset" value="취소">
+    </form>
+
+    <hr size="5" color="red">
+    <pre>
+    오늘은    목요일 아침입니다
+    금요일은 자바스크립트수업입니다.
+    </pre>
+</body>
+</html>

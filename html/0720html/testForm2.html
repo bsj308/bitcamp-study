@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testForm2.html</title>
+    <style>
+         *{font-size: 20px; font-family: 'Comic sans ms';}
+        a{font-size: 20pt;text-decoration: none;color: blue;}
+        a:hover {font-size: 30pt;text-decoration: none; color:green;font-family: 'Comic sans ms';}
+    </style>
+    <script>
+        function nullCheck(){
+            //document키워드는 생략가능
+            a = document.myform.code.value;
+            
+            if(a==""|| a==null){
+                alert("코드데이터를 입력하셔야합니다(필수항목)");
+                myform.code.focus();
+                return; //아래문장을 처리안하고 함수탈출
+            }else{myform.title.focus();}
+
+            size = document.myform.code.value.length;
+            //alert('문자열길이 = '+size);
+            if(size!=6) {
+                alert("코드데이터는 6자리입력하셔야합니다.");
+                myform.code.value="";
+                myform.code.focus();
+                return false;
+            }
+
+            b = myform.title.value;
+            if(b==""|| b==null){
+                alert("제목데이터를 입력하셔야합니다(필수항목)");
+                myform.title.focus();
+            }
+        }//end
+    </script>
+</head>
+<body>
+    <font color="red"><b> 화면만들기 testForm.html </b></font> <br>
+    <form name="myform">
+        코드: <input type="text" name="code" size="10"> <font color="red">*</font>필수입력 <br>
+        제목: <input type="text" name="title" size="10" value="summer"> <font color="red">*</font>필수입력 <br>
+        <input type="button" value="저장"  onclick="nullCheck();">
+        <input type="reset" value="취소">
+    </form>
+</body>
+</html>
