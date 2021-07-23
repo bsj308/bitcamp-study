@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test18event</title>
+    <style>
+        *{font-size: 14pt;}
+    </style>
+    <script>
+        function welcome() {
+            alert('저희 홈페이지 방문을 환영합니다');
+            console.log('저희 홈페이지 방문을 환영합니다');
+            console.log('결과 = ' + (1200+98));
+        }//end
+        function pinkChange() {
+            target = document.querySelector('body');
+            target.style.backgroundColor='pink';
+        }
+        function whiteChange() {
+            target = document.querySelector('body');
+            target.style.backgroundColor='white';
+        }
+    </script>
+</head>
+<body onload="welcome();">
+    <p></p><br>
+    <table border="1" width="1200" cellspacing="0">
+        <tr bgcolor="yellow">  <!--th=table header =중앙맞춤, 진하게-->
+            <th>강의시간</th>
+            <th>강의과목</th>
+            <th>담당강사</th>
+            <th>강의실</th>
+            <th>기타비고</th>
+        </tr>
+        <tr onmouseover="style.backgroundColor='#00FFFF'" onmouseout="style.backgroundColor=''">
+            <td>오전 10:00</td>
+            <td>스프링</td>
+            <td>강요천</td>
+            <td>종로702</td>
+            <td>비대면 웹엑스 사용</td>
+        </tr>
+        <tr onmouseover="style.backgroundColor='#00FFFF'" onmouseout="style.backgroundColor=''">
+            <td>오후 12:00</td>
+            <td>jQuery</td>
+            <td>김영림</td>
+            <td>신촌506</td>
+            <td>비대면 웹엑스 사용</td>
+        </tr>
+        <tr onmouseover="style.backgroundColor='#00FFFF'" onmouseout="style.backgroundColor=''">
+            <td>오후 14:00</td>
+            <td>SQL튜닝</td>
+            <td>엄진영</td>
+            <td>서초102</td>
+            <td>비대면 웹엑스 사용</td>
+        </tr>
+    </table>
+    <p></p>
+    <!--태그 style기술할 때 this키워드 생략가능-->
+    <button style="font-size: 24pt;" onclick="this.style.backgroundColor='pink'">핑크배경모드</button>
+    <button style="font-size: 24pt;" onclick="body.style.backgroundColor= 'white';">흰배경모드</button>
+</body>
+</html>
